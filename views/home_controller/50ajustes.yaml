@@ -1,0 +1,46 @@
+    icon: 'mdi:tools'
+    path: ajustes
+    badges: []
+
+    cards:
+      # - type: entities
+      #   title: Robot emilio
+      #   entities:
+      #     - entity: vacuum.robot_emilio
+      #     - entity: sensor.bateria_emilio
+      #     - entity: sensor.cepillo_principal_emilio
+      #     - entity: sensor.cepillo_lateral_emilio
+      #     - entity: sensor.filtro_emilio
+      #     - entity: sensor.limpieza_sensores_emilio
+      #   show_header_toggle: false
+        
+        
+      
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+          # - type: entities
+          #   entities:
+          #     - entity: input_boolean.alerta
+              
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: input_boolean.modo_visita
+                
+              - type: entities
+                entities:
+                  - entity: input_boolean.modo_vacaciones
+                
+          - type: entities
+            entities:
+              - entity: input_boolean.modo_teletrabajo
+
+
+
+
+
+
+
+
+        

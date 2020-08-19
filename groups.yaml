@@ -1,0 +1,26 @@
+ventanas:
+  name: Ventanas
+  entities:
+    - binary_sensor.ventana_habitacion_contact
+    - binary_sensor.ventana_habitacion_invitados_contact
+    - binary_sensor.ventana_salon_derecha_contact
+    - binary_sensor.ventana_salon_izquierda_contact
+    - binary_sensor.puerta_terraza_contact
+
+
+
+
+movimiento:
+  name: Sensores movimiento
+  entities:
+    - binary_sensor.movimiento_entrada_occupancy
+    - binary_sensor.movimiento_habitacion_occupancy
+
+
+
+
+
+
+
+
+

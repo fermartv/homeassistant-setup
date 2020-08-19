@@ -1,0 +1,21 @@
+    icon: 'mdi:bell'
+    path: system-notifications
+    title: ''
+
+    badges: []
+
+    cards:
+
+###################################################
+#                                                 #
+#                  NOTIFICACIONES                 #
+#                                                 #
+###################################################
+      - type: entities
+        title: Notificaciones
+        show_header_toggle: false
+        entities:
+
+          - input_boolean.backupcreado
+          # - input_boolean.backupfallo
+          - input_boolean.avisos_calefaccion

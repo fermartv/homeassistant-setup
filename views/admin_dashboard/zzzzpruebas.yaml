@@ -1,0 +1,60 @@
+    icon: 'mdi:test-tube'
+    path: pruebas
+    title: ''
+
+    badges: []
+
+    cards:
+
+      - type: entities
+        entities:
+          - device_tracker.movil_fer_app
+          - person.fernando
+          - type: divider
+          - device_tracker.movil_marta_app
+          - person.marta
+
+
+      - type: entities
+        entities:
+          - binary_sensor.led_lavadora
+          - sensor.voltaje_lavadora
+          - sensor.wifi_lavadora
+          - sensor.estado_lavadora
+
+
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+          - type: 'custom:mini-graph-card'
+            entities:
+              - entity: sensor.voltaje_lavadora
+                show_fill: false
+            hour24: true
+            name: Voltaje lavadora
+            points_per_hour: 240
+            hours_to_show: 1
+            show:
+              extrema: true
+              icon: false
+              legend: false
+
+          - type: 'custom:mini-graph-card'
+            entities:
+              - entity: binary_sensor.led_lavadora
+                color: green
+                show_line: false
+                show_points: false
+                smoothing: false
+            hour24: true
+            points_per_hour: 240
+            hours_to_show: 1
+            show:
+              icon: false
+              labels: true
+              name: false
+              state: false
+            state_map:
+              - label: Apagado
+                value: 'off'
+              - label: Encendido
+                value: 'on'

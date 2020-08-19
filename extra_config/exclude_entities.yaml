@@ -1,0 +1,270 @@
+#Elementos a excluir del histórico
+   - automation.backup_ha
+   - automation.mantenimiento_emilio
+   - automation.poco_espacio_en_disco
+   - automation.temperatura_cpu
+   - automation.quitar_notificacion_de_nuevos_dispositivos
+   - binary_sensor.dia_laborable
+   - input_boolean.modo_vacaciones
+   - input_boolean.modo_visita
+   - input_boolean.limpieza
+   - script.24h_la_tele
+   - script.activa_alarma
+   - script.activa_modo_vacaciones
+   - script.activa_modo_visita
+   - script.amazon_la_tele
+   - script.antena_3_la_tele
+   - script.bus_centro
+   - script.bus_trabajo
+   - script.cuatro_la_tele
+   - script.desactiva_modo_vacaciones
+   - script.desactiva_modo_visita
+   - script.directo_la_tele
+   - script.emilio_habla
+   - script.emilio_limpia
+   - script.emilio_pausa_reanuda
+   - script.emilio_vuelve_base
+   - script.hdmi1_la_tele
+   - script.hdmi2_la_tele
+   - script.hdmi3_la_tele
+   - script.la_2_la_tele
+   - script.la_sexta_la_tele
+   - script.limpiabanof
+   - script.limpiabanom
+   - script.limpiacocina
+   - script.limpiahabitacion
+   - script.limpiahabitacioninvitados
+   - script.limpiahall
+   - script.limpiapasillo
+   - script.limpiasalon
+   - script.limpiazonacomedor
+   - script.limpiazonasofa
+   - script.los_dibujos_la_tele
+   - script.netflix_la_tele
+   - script.reinicia_appdaemon
+   - script.reinicia_ha
+   - script.reinicia_mqtt
+   - script.reinicia_node_red
+   - script.reinicia_watchtower
+   - script.reinicia_z2mqtt
+   - script.spotify_la_tele
+   - script.telecinco_la_tele
+   - script.tve_la_tele
+   - script.youtube_la_tele
+   - device_tracker.esp_pruebas
+   - device_tracker.google_home_salon
+   - device_tracker.la_tele
+   - device_tracker.robot_emilio
+   - device_tracker.tablet_windows_asus   
+   - input_datetime.apagado_calefaccion_manana
+   - input_datetime.calefaccion_noches
+   - input_datetime.calefaccion_tardes
+   - input_datetime.encendido_calefaccion_manana
+   - input_datetime.hora_limpieza
+   - input_number.volumen_la_tele
+   - input_select.fuentes_la_tele
+   - input_select.modo_calefaccion
+   - input_select.zonas_limpieza
+   - input_select.sensor_director
+   - light.led_avisos
+   - sensor.aemet_snow
+   - sensor.altavoces_status
+   - sensor.bus_176_json
+   - sensor.bus_t61_json
+   - sensor.cepillo_lateral_emilio
+   - sensor.cepillo_principal_emilio
+   - sensor.dif_sensacion_termica_salon
+   - sensor.el_tiempo_daytime_high_temperature_0d
+   - sensor.el_tiempo_daytime_high_temperature_1d
+   - sensor.el_tiempo_daytime_high_temperature_2d
+   - sensor.el_tiempo_humidity
+   - sensor.el_tiempo_humidity_0d
+   - sensor.el_tiempo_humidity_0h
+   - sensor.el_tiempo_humidity_1d
+   - sensor.el_tiempo_humidity_24h
+   - sensor.el_tiempo_humidity_2d
+   - sensor.el_tiempo_humidity_48h
+   - sensor.el_tiempo_overnight_low_temperature_0d
+   - sensor.el_tiempo_overnight_low_temperature_1d
+   - sensor.el_tiempo_overnight_low_temperature_2d
+   - sensor.el_tiempo_precip_intensity
+   - sensor.el_tiempo_precip_intensity_0d
+   - sensor.el_tiempo_precip_intensity_0h
+   - sensor.el_tiempo_precip_intensity_1d
+   - sensor.el_tiempo_precip_intensity_24h
+   - sensor.el_tiempo_precip_intensity_2d
+   - sensor.el_tiempo_precip_intensity_48h
+   - sensor.el_tiempo_precip_probability
+   - sensor.el_tiempo_precip_probability_0d
+   - sensor.el_tiempo_precip_probability_0h
+   - sensor.el_tiempo_precip_probability_1d
+   - sensor.el_tiempo_precip_probability_24h
+   - sensor.el_tiempo_precip_probability_2d
+   - sensor.el_tiempo_precip_probability_48h
+   - sensor.el_tiempo_temperature_0h
+   - sensor.el_tiempo_temperature_24h
+   - sensor.el_tiempo_temperature_48h
+   - sensor.filtro_emilio
+   - sensor.limpieza_sensores_emilio
+   - sensor.movimiento_entrada_battery
+   - sensor.movimiento_entrada_linkquality
+   - sensor.movimiento_habitacion_battery
+   - sensor.movimiento_habitacion_linkquality
+   - sensor.proximo_bus_176
+   - sensor.proximo_bus_176_siguiente
+   - sensor.proximo_bus_t61
+   - sensor.proximo_bus_t61_siguiente
+   - sensor.puerta_principal_battery
+   - sensor.puerta_principal_linkquality
+   - sensor.puerta_terraza_battery
+   - sensor.puerta_terraza_linkquality
+   - sensor.pulsador_entrada_battery
+   - sensor.pulsador_entrada_linkquality
+   - sensor.temperatura_bano_marta_battery
+   - sensor.temperatura_bano_marta_linkquality
+   - sensor.temperatura_habitacion_battery
+   - sensor.temperatura_habitacion_linkquality
+   - sensor.temperatura_invitados_battery
+   - sensor.temperatura_invitados_linkquality
+   - sensor.temperatura_salon_battery
+   - sensor.temperatura_salon_linkquality
+   - sensor.ventana_habitacion_battery
+   - sensor.ventana_habitacion_invitados_battery
+   - sensor.ventana_habitacion_invitados_linkquality
+   - sensor.ventana_habitacion_linkquality
+   - sensor.ventana_salon_derecha_battery
+   - sensor.ventana_salon_derecha_linkquality
+   - sensor.ventana_salon_izquierda_battery
+   - sensor.ventana_salon_izquierda_linkquality
+   - sensor.wifi_sensor_salon
+   - sensor.wifi_sensor_salon_backup
+   - switch.altavoces
+   - switch.appdaemon
+   - switch.dockermon
+   - switch.esphome
+   - switch.esphome_usb
+   - switch.home_assistant
+   - switch.home_assistant_pruebas
+   - switch.mqtt
+   - switch.node_red
+   - switch.node_red_pruebas
+   - switch.portainer
+   - switch.watchtower
+   - switch.zigbee2mqtt
+   - switch.zigbee2mqtt_assistant
+   - weather.aemet
+   - weather.dark_sky
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

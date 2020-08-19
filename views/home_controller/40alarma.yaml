@@ -1,0 +1,55 @@
+    path: alarma
+    icon: 'mdi:shield-home'
+    badges:
+      # - entity: binary_sensor.puerta_principal_contact
+      # - entity: binary_sensor.movimiento_entrada_occupancy
+      # - entity: binary_sensor.movimiento_habitacion_occupancy
+      # - entity: binary_sensor.ventana_habitacion_contact
+      # - entity: binary_sensor.ventana_habitacion_invitados_contact
+      # - entity: binary_sensor.ventana_salon_derecha_contact
+      # - entity: binary_sensor.ventana_salon_izquierda_contact
+      # - entity: sensor.pulsador_entrada_click
+
+    cards:
+      - type: alarm-panel
+        entity: alarm_control_panel.alarma
+        states:
+          - arm_away
+
+
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+        - type: entities
+          entities:
+            - entity: input_boolean.camara
+
+        - type: conditional
+          conditions:
+            - entity: input_boolean.camara
+              state: "on"
+          card:
+            type: picture-entity
+            entity: camera.camara_salon
+            camera_view: live
+
+        - type: conditional
+          conditions:
+            - entity: input_boolean.camara
+              state: "on"
+          card:
+            type: entities
+            entities:
+              - entity: input_boolean.grabacion
+
+      - type: history-graph
+        entities:
+          - entity: alarm_control_panel.alarma
+          - entity: binary_sensor.puerta_principal_contact
+          - entity: binary_sensor.puerta_terraza_contact
+          - entity: binary_sensor.ventana_habitacion_contact
+          - entity: binary_sensor.ventana_habitacion_invitados_contact
+          - entity: binary_sensor.ventana_salon_derecha_contact
+          - entity: binary_sensor.ventana_salon_izquierda_contact
+          - entity: sensor.pulsador_entrada_click
+          - entity: binary_sensor.movimiento_entrada_occupancy
+          - entity: binary_sensor.movimiento_habitacion_occupancy

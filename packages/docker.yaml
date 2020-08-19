@@ -1,0 +1,156 @@
+
+
+shell_command:
+  reinicio_z2mqtt: 'curl http://192.168.1.101:8126/container/Zigbee2MQTT/restart'
+  reinicio_mqtt: 'curl http://192.168.1.101:8126/container/mosquitto/restart'
+  reinicio_nodered: 'curl http://192.168.1.101:8126/container/nodered/restart'
+  reinicio_watchtower: 'curl http://192.168.1.101:8126/container/watchtower/restart'
+  reinicio_nextcloud: 'curl http://192.168.1.101:8126/container/NextCloud/restart'
+  reinicio_traefik: 'curl http://192.168.1.101:8126/container/traefik/restart'
+  reinicio_pihole: 'curl http://192.168.1.101:8126/container/pihole/restart'
+
+switch:
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/Homeassistant
+    name: Home Assistant
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/nodered
+    name: Node-Red
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/mosquitto
+    name: MQTT
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/Zigbee2MQTT
+    name: Zigbee2MQTT
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/Portainer
+    name: Portainer
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/ha-dockermon
+    name: Dockermon
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/ESPHomeUSB
+    name: ESPHome USB
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/ESPHome
+    name: ESPHome
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/zigbee2mqttassistant
+    name: Zigbee2MQTT Assistant
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/watchtower
+    name: Watchtower
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/NextCloud
+    name: Nextcloud
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/traefik
+    name: Traefik
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+  - platform: rest
+    resource: http://192.168.1.101:8126/container/pihole
+    name: Pi-hole
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+
+#################################################################
+#                                                               #
+#                           SCRIPTS                             #
+#                                                               #
+#################################################################
+script:
+  reinicia_ha:
+    alias: Reiniciar HA
+    sequence:
+    - data: {}
+      service: homeassistant.restart
+
+  reinicia_node_red:
+    alias: Reiniciar Node Red
+    sequence:
+    - data: {}
+      service: shell_command.reinicio_nodered
+
+  reinicia_mqtt:
+    alias: Reiniciar MQTT
+    sequence:
+    - data: {}
+      service: shell_command.reinicio_mqtt
+
+  reinicia_z2mqtt:
+    alias: Reiniciar Z2MQTT
+    sequence:
+    - data: {}
+      service: shell_command.reinicio_z2mqtt
+
+  reinicia_watchtower:
+    alias: Reiniciar Watchtower
+    sequence:
+    - data: {}
+      service: shell_command.reinicio_watchtower
+
+  reinicia_nextcloud:
+    alias: Reiniciar Nextcloud
+    sequence:
+    - data: {}
+      service: shell_command.reinicio_nextcloud
+
+  reinicia_traefik:
+    alias: Reiniciar Traefik
+    sequence:
+    - data: {}
+      service: shell_command.reinicio_traefik
+
+  reinicia_pihole:
+    alias: Reiniciar Pi-hole
+    sequence:
+    - data: {}
+      service: shell_command.reinicio_pihole

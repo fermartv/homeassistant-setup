@@ -1,0 +1,9 @@
+custom_header:
+  compact_mode: true
+  hide_help: true
+  hide_config: true
+  button_text:
+    options: '{{ time }}'
+title: Admin
+path: default_view
+views: !include_dir_list views/admin_dashboard/

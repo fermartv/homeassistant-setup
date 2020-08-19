@@ -1,0 +1,182 @@
+
+
+input_datetime:
+  encendido_calefaccion_manana:
+    name: Encendido calefacción mañanas
+    has_date: false
+    has_time: true
+    icon: mdi:weather-sunset-up
+
+  apagado_calefaccion_manana:
+    name: Apagado calefacción mañanas
+    has_date: false
+    has_time: true
+    icon: mdi:weather-sunset-up
+
+  calefaccion_tardes:
+    name: Encendido calefacción tardes
+    has_date: false
+    has_time: true
+    icon: mdi:weather-sunset-down
+
+  calefaccion_noches:
+    name: Calefacción modo noche
+    has_date: false
+    has_time: true
+    icon: mdi:weather-night
+
+
+input_number:
+  temperatura_manana:
+    name: Temperatura mañanas
+    min: 10
+    max: 24
+    step: 0.5
+    mode: box
+    icon: mdi:home-thermometer
+    unit_of_measurement: "°C"
+
+  temperatura_tarde:
+    name: Temperatura tardes
+    min: 10
+    max: 24
+    step: 0.5
+    mode: box
+    icon: mdi:home-thermometer
+    unit_of_measurement: "°C"
+
+  temperatura_noche:
+    name: Temperatura noche
+    min: 10
+    max: 24
+    step: 0.5
+    mode: box
+    icon: mdi:home-thermometer
+    unit_of_measurement: "°C"
+
+  temperatura_verano_exterior:
+    name: Temperatura máxima exterior
+    min: 10
+    max: 30
+    step: 0.5
+    mode: box
+    icon: mdi:home-thermometer
+    unit_of_measurement: "°C"
+
+  temperatura_verano_interior:
+    name: Temperatura máxima en casa
+    min: 10
+    max: 30
+    step: 0.5
+    mode: box
+    icon: mdi:home-thermometer
+    unit_of_measurement: "°C"
+
+input_select:
+  modo_calefaccion:
+    name: Modo calefacción
+    options:
+      - Automática
+      # - Semiautomática
+      - Manual
+    icon: mdi:auto-fix
+
+  # sensor_director:
+  #   name: Estancia fija temperatura
+  #   options:
+  #     - Salón
+  #     - Habitación
+  #     - Invitados
+  #     - Baño
+  #   initial: Salón
+  #   icon: mdi:floor-plan
+
+input_boolean:
+  avisos_calefaccion:
+    name: Enviar notificaciones de calefacción
+    icon: mdi:radiator
+
+  verano_calefaccion:
+    name: Modo verano
+    icon: mdi:weather-sunny
+
+climate:
+  - platform: generic_thermostat
+    name: Calefacción
+    heater: switch.termostato_terraza
+    target_sensor: sensor.temperatura_media
+    min_temp: 10
+    max_temp: 24
+    min_cycle_duration:
+      minutes: 15
+
+
+
+
+sensor:
+
+  #Sensores secundarios
+  - platform: template
+    sensors:
+      #Temperatura de consigna
+      set_temperatura_salon:
+        value_template: '{{ states.climate.calefaccion.attributes.temperature }}'
+        friendly_name: 'Temperatura consigna salón'
+        unit_of_measurement: "°C"
+
+      #Sensación térmica en salón
+      sensacion_termica_salon:
+        value_template: >-
+           {{ ((states.sensor.temperatura_salon_temperature.state | float) +
+           0.348 * ((((states.sensor.temperatura_salon_humidity.state | float)/100)*6.105) *
+           (2.71828 ** ((17.27*(states.sensor.temperatura_salon_temperature.state | float)) /
+           (237.7 + (states.sensor.temperatura_salon_temperature.state | float))))) - 4.25) | round(2) }}
+        friendly_name: Sensación térmica salón
+        icon_template: mdi:thermometer-lines
+        device_class: temperature
+        unit_of_measurement: "°C"
+
+      #Sensación térmica media
+      sensacion_termica_media:
+        value_template: >-
+           {{ ((states.sensor.temperatura_media.state | float) +
+           0.348 * ((((states.sensor.humedad_media.state | float)/100)*6.105) *
+           (2.71828 ** ((17.27*(states.sensor.temperatura_media.state | float)) /
+           (237.7 + (states.sensor.temperatura_media.state | float))))) - 4.25) | round(2) }}
+        friendly_name: Sensación térmica media
+        icon_template: mdi:thermometer-lines
+        device_class: temperature
+        unit_of_measurement: "°C"
+
+
+      #Diferencia entre temperatura real y sensación térmica
+      dif_sensacion_termica_salon:
+        friendly_name: Diferencia sensación térmica salón
+        icon_template: mdi:thermometer-lines
+        device_class: temperature
+        unit_of_measurement: "°C"
+        value_template: >-
+          {{(states.sensor.temperatura_salon_temperature.state| float) -
+            (states.sensor.sensacion_termica_salon.state| float) }}
+
+    #Sensor de temperatura media
+  - platform: min_max
+    name: Temperatura media
+    type: mean
+    entity_ids:
+      - sensor.temperatura_salon_temperature
+      - sensor.temperatura_habitacion_temperature
+      - sensor.temperatura_bano_marta_temperature
+      - sensor.temperatura_invitados_temperature
+      - sensor.temperatura_bano_fer_temperature
+
+    #Sensor de humedad media
+  - platform: min_max
+    name: Humedad media
+    type: mean
+    entity_ids:
+      - sensor.temperatura_salon_humidity
+      - sensor.temperatura_habitacion_humidity
+      - sensor.temperatura_bano_marta_humidity
+      - sensor.temperatura_invitados_humidity
+      - sensor.temperatura_bano_fer_humidity

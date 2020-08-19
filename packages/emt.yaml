@@ -1,0 +1,134 @@
+#############################################################
+#                                                           #
+#                         SENSORES                          #
+#                                                           #
+#############################################################
+sensor:
+
+    #Bus centro
+  - platform: rest
+    name: Bus centro json
+    resource: !secret url_bus_centro
+    method: POST
+    headers:
+      accessToken: !secret token_EMT
+    payload: '{ "Text_EstimationsRequired_YN" : "Y" }'
+    json_attributes:
+      - data
+    value_template: '{{ value_json.description }}'
+    scan_interval: 30
+
+  - platform: template
+    sensors:
+      proximo_bus_centro:
+        friendly_name: Bus centro
+        icon_template: mdi:bus
+        value_template: >-
+          {% if (states.sensor.bus_centro_json.attributes.data[0].Arrive | count)>= 1%}
+            {% if (states.sensor.bus_centro_json.attributes.data[0].Arrive[0].estimateArrive | float / 60) | round(0)> 30%}
+              >30
+            {% else %}
+              {{(states.sensor.bus_centro_json.attributes.data[0].Arrive[0].estimateArrive | float / 60) | round(0)}}
+            {% endif %}
+          {% else %}
+            -
+          {% endif %}
+
+        unit_of_measurement: 'min'
+
+
+      proximo_bus_centro_siguiente:
+        friendly_name: Próximo bus centro
+        icon_template: mdi:bus-clock
+        value_template: >-
+          {% if (states.sensor.bus_centro_json.attributes.data[0].Arrive | count)>= 2%}
+            {% if (states.sensor.bus_centro_json.attributes.data[0].Arrive[1].estimateArrive | float / 60) | round(0)> 30%}
+              >30
+            {% else %}
+              {{(states.sensor.bus_centro_json.attributes.data[0].Arrive[1].estimateArrive | float / 60) | round(0)}}
+            {% endif %}
+          {% else %}
+            -
+          {% endif %}
+        unit_of_measurement: 'min'
+
+# {% for bus in states.sensor.bus_centro_json.attributes.data[0].Arrive %}
+#   {% if (bus.estimateArrive | float / 60) | round(0) > 30 %}
+#     >30
+#   {% else %}
+#     {{ (bus.estimateArrive | float / 60) | round(0)}}
+#   {% endif %}
+# {% endfor %}
+
+
+
+    #Bus trabajo
+  - platform: rest
+    name: Bus trabajo json
+    resource: !secret url_bus_trabajo
+    method: POST
+    headers:
+      accessToken: !secret token_EMT
+    payload: '{ "Text_EstimationsRequired_YN" : "Y" }'
+    json_attributes:
+      - data
+    value_template: '{{ value_json.description }}'
+    scan_interval: 30
+
+  - platform: template
+    sensors:
+      proximo_bus_trabajo:
+        friendly_name: Bus trabajo
+        icon_template: mdi:bus
+        value_template: >-
+          {% if (states.sensor.bus_trabajo_json.attributes.data[0].Arrive | count)>= 1%}
+            {% if (states.sensor.bus_trabajo_json.attributes.data[0].Arrive[0].estimateArrive | float / 60) | round(0)> 30%}
+              >30
+            {% else %}
+              {{(states.sensor.bus_trabajo_json.attributes.data[0].Arrive[0].estimateArrive | float / 60) | round(0)}}
+            {% endif %}
+          {% else %}
+            -
+          {% endif %}
+        unit_of_measurement: 'min'
+
+
+      proximo_bus_trabajo_siguiente:
+        friendly_name: Próximo bus trabajo
+        icon_template: mdi:bus-clock
+        value_template: >-
+          {% if (states.sensor.bus_trabajo_json.attributes.data[0].Arrive | count)>= 2%}
+            {% if (states.sensor.bus_trabajo_json.attributes.data[0].Arrive[1].estimateArrive | float / 60) | round(0)> 30%}
+              >30
+            {% else %}
+              {{(states.sensor.bus_trabajo_json.attributes.data[0].Arrive[1].estimateArrive | float / 60) | round(0)}}
+            {% endif %}
+          {% else %}
+            -
+          {% endif %}
+        unit_of_measurement: 'min'
+
+
+
+
+#############################################################
+#                                                           #
+#                         SCRIPTS                           #
+#                                                           #
+#############################################################
+script:
+  bus_trabajo:
+    alias: Aviso bus trabajo
+    sequence:
+    - service: tts.google_say
+      data_template:
+        message: Faltan {{states.sensor.proximo_bus_trabajo.state}} minutos para el próximo bus al trabajo, y {{states.sensor.proximo_bus_trabajo_siguiente.state}}
+          para el siguiente.
+
+  bus_centro:
+    alias: Aviso bus centro
+    sequence:
+    - service: tts.google_say
+      data_template:
+        message: Faltan {{states.sensor.proximo_bus_centro.state}} minutos para el próximo bus al centro, y {{states.sensor.proximo_bus_centro_siguiente.state}}
+          para el siguiente.

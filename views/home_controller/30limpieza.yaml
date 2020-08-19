@@ -1,0 +1,121 @@
+    icon: 'mdi:broom'
+    path: limpieza
+    badges: []
+
+    cards:
+      - type: 'custom:vacuum-card'
+        entity: vacuum.robot_emilio
+        actions:
+          - name: Clean living room
+            service: script.limpiasalon
+            icon: 'mdi:sofa'
+          - name: Clean bedroom
+            service: script.limpiahabitacion
+            icon: 'mdi:bed-empty'
+          - name: Clean kitchen
+            service: script.limpiacocina
+            icon: 'mdi:silverware-fork-knife'
+
+
+
+
+
+      - type: entities
+        entities:
+          - entity: input_boolean.limpieza
+          - entity: input_datetime.hora_limpieza
+
+      # - type: entities
+      #   entities:
+      #     - entity: vacuum.robot_emilio
+      #     - entity: sensor.bateria_emilio
+      #     - entity: sensor.cepillo_principal_emilio
+      #     - entity: sensor.cepillo_lateral_emilio
+      #     - entity: sensor.filtro_emilio
+      #     - entity: sensor.limpieza_sensores_emilio
+      #   show_header_toggle: false
+      #   title: Mantenimiento
+      #
+      # - type: 'custom:vertical-stack-in-card'
+      #   cards:
+      #     - type: glance
+      #       entities:
+      #         - entity: script.emilio_limpia
+      #           icon: 'mdi:broom'
+      #           name: Limpia
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.emilio_pausa_reanuda
+      #           icon: 'mdi:play-pause'
+      #           name: Pausa
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.emilio_vuelve_base
+      #           icon: 'mdi:home-automation'
+      #           name: Base
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.emilio_habla
+      #           icon: 'mdi:map-marker'
+      #           name: Localización
+      #           tap_action:
+      #             action: toggle
+      #       show_name: false
+      #       show_state: false
+      #       theme: Backend-selected
+      #       title: Robot Emilio
+      #
+      #     - type: glance
+      #       entities:
+      #         - entity: script.limpiacocina
+      #           icon: 'mdi:fridge-outline'
+      #           name: Cocina
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiasalon
+      #           icon: 'mdi:television-classic'
+      #           name: Salón
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiabanomarta
+      #           icon: 'mdi:shower'
+      #           name: Baño Marta
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiabanofer
+      #           icon: 'mdi:shower-head'
+      #           name: Baño Fer
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiahabitacion
+      #           icon: 'mdi:hotel'
+      #           name: Habitación
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiahabitacioninvitados
+      #           icon: 'mdi:home-heart'
+      #           name: Invitados
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiahall
+      #           icon: 'mdi:door-open'
+      #           name: Hall
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiapasillo
+      #           icon: 'mdi:transit-transfer'
+      #           name: Pasillo
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiazonasofa
+      #           icon: 'mdi:sofa'
+      #           name: Sofá
+      #           tap_action:
+      #             action: toggle
+      #         - entity: script.limpiazonacomedor
+      #           icon: 'mdi:table-chair'
+      #           name: Comedor
+      #           tap_action:
+      #             action: toggle
+      #       show_state: false
+      #       theme: Backend-selected

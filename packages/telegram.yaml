@@ -1,0 +1,28 @@
+#Integra el bot de telegram 'casalastablasbot'
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_API_key
+    allowed_chat_ids:
+      - !secret telegram_chat_fer
+      - !secret telegram_pruebas
+      - !secret telegram_grupo
+      - !secret telegram_chat_marta
+
+
+
+notify:
+  - name: Telegram Fer
+    platform: telegram
+    chat_id: !secret telegram_chat_fer
+
+  - name: Telegram grupo
+    platform: telegram
+    chat_id: !secret telegram_grupo
+
+  - name: Telegram grupo pruebas
+    platform: telegram
+    chat_id: !secret telegram_pruebas
+
+  - name: Telegram Marta
+    platform: telegram
+    chat_id: !secret telegram_chat_marta

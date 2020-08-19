@@ -1,0 +1,211 @@
+
+
+# http:
+#   # Certificados de dehydrated y límite de logins
+#   ssl_certificate: !secret ssl_certificate
+#   ssl_key: !secret ssl_key
+#   base_url: !secret base_url
+#   ip_ban_enabled: true
+#   login_attempts_threshold: 3
+
+
+#Medidor de conexión a internet
+speedtestdotnet:
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+  scan_interval:
+    hours: 6
+
+
+binary_sensor:
+  #Determina si existe o no conexión
+  - platform: ping
+    host: www.google.es
+    name: Conexión internet
+    count: 4
+    scan_interval: 100
+
+
+folder_watcher:
+  - folder: /config/backups/
+    patterns:
+      - '*.ok'
+      - '*.error'
+
+
+shell_command:
+  # Comando para reconectar los altavoces despues de un reinicio
+  conectar_altavoces: 'curl http://192.168.1.109/cm?cmnd=SetOption19%201'
+
+
+
+
+#################################################################
+#                                                               #
+#                          SENSORES                             #
+#                                                               #
+#################################################################
+sensor:
+
+  #Medidor de temperatura de la CPU
+  - platform: command_line
+    name: Temperatura CPU
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+    scan_interval: 15
+
+  #Monitor del sistema
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: memory_free
+      - type: memory_use_percent
+      - type: ipv4_address
+        arg: enp3s0
+      - type: processor_use
+      - type: last_boot
+
+  #Sensor tamaño BBDD
+  - platform: filesize
+    file_paths:
+      - /config/home-assistant_v2.db
+      - /config/home-assistant.log
+
+    #Sensor de tiempo sin reinicio
+  - platform: uptime
+    name: Uptime HA
+
+  #Sensor para analizar la exposición del servidor en shodan
+  - platform: shodan
+    api_key: !secret token_shodan
+    query: !secret query_shodan
+
+  #Sensor última versión disponible en docker
+  - platform: version
+    name: Nueva versión HA
+    source: docker
+
+  #Sensor versión instalada
+  - platform: version
+    name: Versión actual HA
+
+  #IP Externa
+  - platform: dnsip
+    name: IP Externa
+
+    #Recoge los intentos de conexión por SSH y HA
+  - platform: fail2ban
+    file_path: /config/fail2ban.log
+    jails:
+      - sshd
+      - homeassistant
+
+
+#################################################################
+#                                                               #
+#                       NOTIFICACIONES                          #
+#                                                               #
+#################################################################
+
+
+input_boolean:
+  backupcreado:
+    name: Aviso de backup creado
+    icon: 'mdi:cloud-upload-outline'
+
+  backupfallo:
+    name: Aviso de error en backup
+
+
+#################################################################
+#                                                               #
+#                            GROUPS                             #
+#                                                               #
+#################################################################
+# group:
+#   sensores_criticos:
+#     name: Sensores críticos
+#     entities:
+#       - sensor.temperatura_cpu
+#       - sensor.temperatura_salon_temperature
+#       - sensor.temperatura_salon_backup
+#       - sensor.temperatura_salon
+#       - sensor.temperatura_invitados_temperature
+#       - sensor.temperatura_habitacion_temperature
+#       - sensor.temperatura_bano_marta_temperature
+#       - switch.termostato_terraza
+#       - switch.termostato_terraza_backup
+#       - binary_sensor.puerta_principal_contact
+#       - binary_sensor.puerta_terraza_contact
+#       - binary_sensor.ventana_habitacion_contact
+#       - binary_sensor.ventana_habitacion_invitados_contact
+#       - binary_sensor.ventana_salon_derecha_contact
+#       - binary_sensor.ventana_salon_izquierda_contact
+#       - binary_sensor.movimiento_entrada_occupancy
+#       - binary_sensor.movimiento_habitacion_occupancy
+
+
+#################################################################
+#                                                               #
+#                         AUTOMATION                            #
+#                                                               #
+#################################################################
+automation:
+
+  - alias: Temperatura CPU
+    trigger:
+    - above: '65'
+      entity_id: sensor.temperatura_CPU
+      for: 00:01:00
+      platform: numeric_state
+    condition: []
+    action:
+    - data:
+        message: Temperatura excesiva de la CPU
+      service: telegram_bot.send_message
+    - data: {}
+      service: homeassistant.restart
+
+  - alias: Poco espacio en disco
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.disk_use_percent_home
+      above: '70'
+    - platform: numeric_state
+      entity_id: sensor.disk_use_percent_media_backup_ha
+      above: '70'
+    condition: []
+    action:
+    - service: telegram_bot.send_message
+      data:
+        message: Queda poco espacio en disco
+
+  # - alias: Backup HA
+  #   trigger:
+  #   - event_data:
+  #       event_type: created
+  #     event_type: folder_watcher
+  #     platform: event
+  #   condition: []
+  #   action:
+  #   - data:
+  #       disable_notification: 'yes'
+  #       message: "Backup creado correctamente. IP Externa: {{states.sensor.ip_externa.state}}"
+  #     service: telegram_bot.send_message
+
+
+  - alias: 'Quitar notificación de nuevos dispositivos'
+    trigger:
+      - platform: state
+        entity_id: persistent_notification.config_entry_discovery
+        to: notifying
+      - platform: homeassistant
+        event: start
+    action:
+      - service: persistent_notification.dismiss
+        data:
+          notification_id: config_entry_discovery

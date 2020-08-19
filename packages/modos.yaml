@@ -1,0 +1,73 @@
+input_boolean:
+  modo_visita:
+    name: Visita
+    icon: mdi:account-group
+
+  modo_vacaciones:
+    name: Vacaciones
+    icon: mdi:beach
+
+  modo_teletrabajo:
+    name: Teletrabajo
+    icon: mdi:virus-outline
+
+
+
+#############################################################
+#                                                           #
+#                   MODOS DE OPERACIÓN                      #
+#                                                           #
+#############################################################
+script:
+  activa_modo_visita:
+    alias: Llega una visita
+    sequence:
+    - data:
+        entity_id: input_boolean.modo_visita
+      service: input_boolean.turn_on
+    - data:
+        message: Bienvenido a nuestra casa. Esperamos que te lo pases bien mientras
+          estás aquí. Para no molestarte hemos desactivado todas las cosas que hacen
+          ruido.
+      service: tts.google_say
+
+  desactiva_modo_visita:
+    alias: Adiós visita
+    sequence:
+    - data:
+        entity_id: input_boolean.modo_visita
+      service: input_boolean.turn_off
+    - data:
+        message: ¡Adiós! Muchas gracias por venir.
+      service: tts.google_say
+
+
+  activa_modo_vacaciones:
+    alias: Activa el modo vacaciones
+    sequence:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.modo_vacaciones
+    - service: tts.google_say
+      data:
+        message: ¡Qué tengáis buen viaje!
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.calefaccion
+        hvac_mode: 'off'
+    - service: telegram_bot.send_message
+      data:
+        message: Felices vacaciones.
+        disable_notification: 'yes'
+        target: !secret telegram_grupo
+
+
+  desactiva_modo_vacaciones:
+    alias: Desactiva el modo vacaciones
+    sequence:
+    - data:
+        entity_id: input_boolean.modo_vacaciones
+      service: input_boolean.turn_off
+    - data:
+        message: Bienvenidos a casa. Está todo tal y cómo lo dejasteis.
+      service: tts.google_say

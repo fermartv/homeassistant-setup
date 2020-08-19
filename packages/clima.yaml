@@ -1,0 +1,42 @@
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api
+    mode: daily
+
+
+sensor:
+
+  # Previsión meteorológica darksky
+  - platform: darksky
+    api_key: !secret darksky_api
+    name: El tiempo
+    forecast:
+      - 0
+      - 1
+      - 2
+    # hourly_forecast:
+    #   - 0
+    #   - 24
+    #   - 48
+    monitored_conditions:
+      - humidity
+      - temperature
+      - temperature_high
+      - temperature_low
+      - precip_probability
+      - precip_intensity
+      - cloud_cover
+      - hourly_summary
+    language: es
+
+  - platform: template
+    sensors:
+      solar_elevation:
+        friendly_name: "Elevación solar"
+        unit_of_measurement: '°'
+        value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+
+input_boolean:
+  lluvia_2dias:
+    name: Lluvia en 2 días
+    icon: mdi:weather-pouring

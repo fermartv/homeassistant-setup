@@ -1,0 +1,4 @@
+www/recordings/*.jpg
+secrets.yaml
+custom_components/hacs/*
+custom_components/nodered/*

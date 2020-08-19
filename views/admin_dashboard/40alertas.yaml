@@ -1,0 +1,21 @@
+    icon: 'mdi:alert'
+    path: system-alerts
+    title: ''
+
+    badges: []
+
+    cards:
+
+###################################################
+#                                                 #
+#           DISPOSITIVOS DESCONECTADOS            #
+#                                                 #
+###################################################
+    - type: 'custom:auto-entities'
+      filter:
+        include:
+          - state: unknown
+          - state: unavailable
+      card:
+        type: entities
+        title: Dispositivos Desconectados

@@ -1,0 +1,265 @@
+    icon: 'mdi:radiator'
+    path: calefaccion
+    panel: false
+
+
+    badges: []
+
+
+    cards:
+
+
+# Gráfico de uso de la calefacción
+      - type: 'custom:mini-graph-card'
+
+        entities:
+          - entity: sensor.temperatura_media
+            show_fill: false
+          - entity: sensor.set_temperatura_salon
+            show_fill: false
+            color: '#03a9f4' 
+          - entity: switch.termostato_terraza
+            color: '#8f8f8f'
+            show_line: false
+            show_points: false
+            smoothing: false
+            y_axis: secondary
+        hour24: true
+        icon: 'mdi:thermometer'
+        name: Calefacción
+        hours_to_show: 24
+        points_per_hour: 6
+        show:
+          extrema: true
+          legend: false
+        color_thresholds:
+          - color: '#3498db'
+            value: 17
+          - color: '#f39c12'
+            value: 20
+          - color: '#c0392b'
+            value: 26
+
+
+
+
+# # Gráfico de uso de la calefacción
+#       - type: 'custom:vertical-stack-in-card'
+#         cards:
+#           - type: 'custom:mini-graph-card'
+
+#             entities:
+#               - entity: sensor.temperatura_media
+#                 show_fill: false
+#               - entity: sensor.set_temperatura_salon
+#                 show_fill: false
+#             hour24: true
+#             name: Calefacción
+#             hours_to_show: 24
+#             points_per_hour: 6
+#             show:
+#               extrema: true
+#               icon: false
+#               legend: false
+
+#           - type: 'custom:mini-graph-card'
+#             entities:
+#               - entity: switch.termostato_terraza
+#                 color: blue
+#                 show_line: false
+#                 show_points: false
+#                 smoothing: false
+#             hour24: true
+#             points_per_hour: 60
+#             show:
+#               icon: false
+#               labels: true
+#               name: false
+#               state: false
+#             state_map:
+#               - label: Apagado
+#                 value: 'off'
+#               - label: Encendido
+#                 value: 'on'
+
+
+# Termostato
+      - entity: climate.calefaccion
+        type: thermostat
+
+
+# Sensores de temperatura de las habitaciones
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+          - type: horizontal-stack
+            cards:
+
+              - type: sensor
+                graph: line
+                name: Salón
+                entity: sensor.temperatura_salon_temperature
+                detail: 2
+
+              - type: sensor
+                graph: line
+                name: Habitación
+                entity: sensor.temperatura_habitacion_temperature
+
+          - type: horizontal-stack
+            cards:
+              - type: sensor
+                graph: line
+                name: Baño Marta
+                entity: sensor.temperatura_bano_marta_temperature
+                detail: 2
+
+              - type: sensor
+                graph: line
+                name: Invitados
+                entity: sensor.temperatura_invitados_temperature
+
+          - type: horizontal-stack
+            cards:
+              - type: sensor
+                graph: line
+                name: Terraza
+                entity: sensor.temperatura_terraza
+                detail: 2
+
+              - type: sensor
+                graph: line
+                name: Baño Fer
+                entity: sensor.temperatura_bano_fer_temperature
+                detail: 2
+
+# Comparativa de temperatura exterior e interior
+      - type: 'custom:mini-graph-card'
+        entities:
+          - entity: sensor.temperatura_exterior
+            show_fill: false
+            name: Temperatura exterior
+          - entity: sensor.temperatura_media
+            show_fill: false
+            color: '#03a9f4'    
+          - entity: sensor.solar_elevation
+            color: '#444444'
+            show_fill: false
+            show_state: false
+            y_axis: secondary
+        hour24: true
+        name: Temperatura exterior
+        hours_to_show: 24
+        points_per_hour: 6
+        lower_bound_secondary: 0
+        line_width: 2
+        icon: 'mdi:thermometer'
+        show:
+          extrema: true
+          legend: false
+        color_thresholds:
+          - color: '#3498db'
+            value: 15
+          - color: '#f39c12'
+            value: 20
+          - color: '#c0392b'
+            value: 30
+
+# Sensores de humedad de las habitaciones
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+          - type: horizontal-stack
+            cards:
+
+              - type: sensor
+                graph: line
+                name: Salón
+                entity: sensor.temperatura_salon_humidity
+                detail: 2
+
+              - type: sensor
+                graph: line
+                name: Habitación
+                entity: sensor.temperatura_habitacion_humidity
+
+          - type: horizontal-stack
+            cards:
+              - type: sensor
+                graph: line
+                name: Baño Marta
+                entity: sensor.temperatura_bano_marta_humidity
+                detail: 2
+
+              - type: sensor
+                graph: line
+                name: Invitados
+                entity: sensor.temperatura_invitados_humidity
+
+          - type: horizontal-stack
+            cards:
+              - type: sensor
+                graph: line
+                name: Terraza
+                entity: sensor.humedad_terraza
+                detail: 2
+
+              - type: sensor
+                graph: line
+                name: Baño Fer
+                entity: sensor.temperatura_bano_fer_humidity
+                detail: 2
+
+          - type: horizontal-stack
+            cards:
+              - type: sensor
+                graph: line
+                name: Exterior
+                entity: sensor.humedad_exterior
+                detail: 2
+
+# Ajustes y opciones de calefacción
+      - type: entities
+        entities:
+            - entity: input_select.modo_calefaccion
+
+            - type: section
+            - entity: input_number.temperatura_manana
+              type: custom:multiple-entity-row
+              show_state: false
+              name: "Mañanas"
+              icon: mdi:weather-sunset-up
+              entities:
+                - entity: input_number.temperatura_manana
+                  name: Temperatura
+                - entity: input_datetime.encendido_calefaccion_manana
+                  name: Encendido
+                - entity: input_datetime.apagado_calefaccion_manana
+                  name: Apagado
+
+            - type: section
+            - entity: input_number.temperatura_tarde
+              type: custom:multiple-entity-row
+              show_state: false
+              name: "Tardes"
+              icon: mdi:weather-sunset-down
+              entities:
+                - entity: input_number.temperatura_tarde
+                  name: Temperatura
+                - entity: input_datetime.calefaccion_tardes
+                  name: Encendido
+
+            - type: section
+            - entity: input_number.temperatura_noche
+              type: custom:multiple-entity-row
+              show_state: false
+              name: "Noches"
+              icon: mdi:weather-night
+              entities:
+                - entity: input_number.temperatura_noche
+                  name: Temperatura
+                - entity: input_datetime.calefaccion_noches
+                  name: Cambio
+            - type: section
+            - entity: input_boolean.verano_calefaccion
+
+
+

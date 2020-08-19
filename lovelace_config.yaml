@@ -1,0 +1,51 @@
+
+
+#Editar lovelace mediante yaml
+mode: yaml
+
+
+#Custom components
+resources:
+  - type: module
+    url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+  - type: module
+    url: /hacsfiles/bar-card/bar-card.js
+  - type: module
+    url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+  - type: module
+    url: /hacsfiles/custom-header/custom-header.js
+  - type: module
+    url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
+  - type: module
+    url: /hacsfiles/vacuum-card/vacuum-card.js
+  - type: module
+    url: /hacsfiles/weather-card/weather-card.js
+  - type: module
+    url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+
+
+#Dashboards adicionales al default
+dashboards:
+  lovelace-admin:
+    title: "Admin"
+    mode: yaml
+    filename: "lovelace-dashboard-admin.yaml"
+    icon: mdi:account-lock
+    show_in_sidebar: true
+    require_admin: true
+
+  lovelace-mobile:
+    title: "Móvil"
+    mode: yaml
+    filename: "lovelace-dashboard-mobile.yaml"
+    icon: mdi:cellphone-android
+    show_in_sidebar: true
+    require_admin: false
+
+  lovelace-home-controller:
+    title: "Control local"
+    mode: yaml
+    filename: "lovelace-home-controller.yaml"
+    icon: mdi:home-automation
+    show_in_sidebar: true
+    require_admin: false

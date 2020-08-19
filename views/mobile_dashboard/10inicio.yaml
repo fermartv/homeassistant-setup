@@ -1,0 +1,426 @@
+    icon: ''
+    path: inicio
+    title: ''
+
+    badges: []
+
+    cards:
+
+
+#############################################################
+#                                                           #
+#                      AUTOBUSES EMT                        #
+#                                                           #
+#############################################################
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+# Autobús trabajo: se oculta cuando el próximo está unavailable
+        - type: conditional
+          conditions:
+            - entity: sensor.proximo_bus_trabajo
+              state_not: "-"
+          card:
+            type: entities
+            show_header_toggle: false
+            entities:
+                - entity: sensor.proximo_bus_trabajo
+                  type: custom:multiple-entity-row
+                  show_state: false
+                  name: "Al trabajo"
+                  icon: mdi:bank
+                  entities:
+                    - entity: sensor.proximo_bus_trabajo
+                      name: Próximo
+                    - entity: sensor.proximo_bus_trabajo_siguiente
+                      name: Siguiente
+
+# Autobús centro: se oculta cuando el próximo está unavailable
+        - type: conditional
+          conditions:
+            - entity: sensor.proximo_bus_centro
+              state_not: "-"
+          card:
+            type: entities
+            show_header_toggle: false
+            entities:
+                - entity: sensor.proximo_bus_centro
+                  type: custom:multiple-entity-row
+                  show_state: false
+                  name: "Al centro"
+                  icon: mdi:city
+                  entities:
+                    - entity: sensor.proximo_bus_centro
+                      name: Próximo
+                    - entity: sensor.proximo_bus_centro_siguiente
+                      name: Siguiente
+
+
+
+
+#############################################################
+#                                                           #
+#                    MANDO A DISTANCIA                      #
+#                                                           #
+#############################################################
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+
+          - type: media-control
+            entity: media_player.la_tele
+
+          - type: conditional
+            conditions:
+              - entity: media_player.la_tele
+                state: "on"
+            card:
+
+              type: 'custom:vertical-stack-in-card'
+              cards:
+
+# CANALES
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.1_la_tele
+                    icon: 'mdi:numeric-1'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.2_la_tele
+                    icon: 'mdi:numeric-2'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.3_la_tele
+                    icon: 'mdi:numeric-3'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.4_la_tele
+                    icon: 'mdi:numeric-4'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.5_la_tele
+                    icon: 'mdi:numeric-5'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.6_la_tele
+                    icon: 'mdi:numeric-6'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.7_la_tele
+                    icon: 'mdi:numeric-7'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.8_la_tele
+                    icon: 'mdi:numeric-8'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.9_la_tele
+                    icon: 'mdi:numeric-9'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.list_la_tele
+                    icon: 'mdi:format-list-numbered'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.0_la_tele
+                    icon: 'mdi:numeric-0'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.info_la_tele
+                    icon: 'mdi:information-variant'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+    # CONTROLES BASICOS
+              - type: divider
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.subir_volumen_la_tele
+                    icon: 'mdi:volume-plus'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.mute_la_tele
+                    icon: 'mdi:volume-variant-off'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.subir_canal_la_tele
+                    icon: 'mdi:arrow-up-drop-circle-outline'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.bajar_volumen_la_tele
+                    icon: 'mdi:volume-minus'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.home_la_tele
+                    icon: 'mdi:home-circle-outline'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.bajar_canal_la_tele
+                    icon: 'mdi:arrow-down-drop-circle-outline'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+    # CONTROLES AVANZADOS
+              - type: divider
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.back_la_tele
+                    icon: 'mdi:keyboard-return'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.arriba_la_tele
+                    icon: 'mdi:arrow-up-bold'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.exit_la_tele
+                    icon: 'mdi:exit-to-app'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.izquierda_la_tele
+                    icon: 'mdi:arrow-left-bold'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.enter_la_tele
+                    icon: 'mdi:radiobox-marked'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.derecha_la_tele
+                    icon: 'mdi:arrow-right-bold'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.rebobinar_la_tele
+                    icon: 'mdi:rewind-outline'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.abajo_la_tele
+                    icon: 'mdi:arrow-down-bold'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.fast_forward_la_tele
+                    icon: 'mdi:fast-forward-outline'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: entity-button
+                    entity: script.pause_la_tele
+                    icon: 'mdi:pause'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.play_la_tele
+                    icon: 'mdi:play-outline'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+                  - type: entity-button
+                    entity: script.stop_la_tele
+                    icon: 'mdi:stop'
+                    show_icon: true
+                    show_name: false
+                    tap_action:
+                      action: toggle
+
+
+#############################################################
+#                                                           #
+#                        TERMOSTATO                         #
+#                                                           #
+#############################################################
+      - type: conditional
+        conditions:
+          - entity: input_boolean.verano_calefaccion
+            state: "off"
+        card:
+          type: thermostat
+          entity: climate.calefaccion
+
+
+#############################################################
+#                                                           #
+#                            ALARMA                         #
+#                                                           #
+#############################################################
+      - type: alarm-panel
+        entity: alarm_control_panel.alarma
+        states:
+          - arm_away
+
+#############################################################
+#                                                           #
+#                 PREVISIÓN METEOROLÓGICA                   #
+#                                                           #
+#############################################################
+      - type: conditional
+        conditions:
+          - entity: input_boolean.lluvia_2dias
+            state: "on"
+        card:
+          type: custom:weather-card
+          entity: weather.dark_sky
+          current: true
+          details: false
+          forecast: true
+          hourly_forecast: false
+          number_of_forecasts: 5
+
+#############################################################
+#                                                           #
+#                        ASPIRADORA                         #
+#                                                           #
+#############################################################
+      - type: 'custom:vacuum-card'
+        entity: vacuum.robot_emilio
+        actions:
+          - name: Clean living room
+            service: script.limpiasalon
+            icon: 'mdi:sofa'
+          - name: Clean bedroom
+            service: script.limpiahabitacion
+            icon: 'mdi:bed-empty'
+          - name: Clean kitchen
+            service: script.limpiacocina
+            icon: 'mdi:silverware-fork-knife'
+
+
+
+#############################################################
+#                                                           #
+#                            LUCES                          #
+#                                                           #
+#############################################################
+      - type: light
+        entity: light.lampara_salon_light
+        name: Lámpara salón

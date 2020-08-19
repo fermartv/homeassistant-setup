@@ -1,0 +1,49 @@
+#Alarma
+alarm_control_panel:
+  - platform: manual
+    name: Alarma
+    code: !secret codigo_alarma
+    delay_time: 30
+    code_arm_required: false
+
+shell_command:
+  #Saca foto con la webcam y la guarda
+  # take_snapshot: ssh -i <PRIVATEKEY> <USERNAME>@<IP> fswebcam --no-banner -r 1280x720 <FILEPATH.jpg>
+  take_snapshot: !secret take_snapshot
+
+  # Graba un vídeo de un minuto
+  # take_video: ssh -i <PRIVATEKEY> <USERNAME>@<IP> streamer -q -c /dev/video0 -f rgb24 -r 10 -t 00:01:00 -o <FILEPATH.avi>
+  take_video: !secret take_video
+    
+
+  # Graba un vídeo de un minuto
+  # remove_snapshot: rm <FILEPATH.jpg>
+  remove_snapshot: !secret remove_snapshot
+
+
+camera:
+  - platform: generic
+    name: Cámara salón
+    still_image_url: !secret still_image_url
+
+input_boolean:
+  camara:
+    name: Cámara
+    icon: mdi:cctv
+
+  grabacion:
+    name: Grabación
+    icon: mdi:record
+
+#############################################################
+#                                                           #
+#                         SCRIPT                            #
+#                                                           #
+#############################################################
+script:
+  activa_alarma:
+    alias: Alarma
+    sequence:
+    - service: alarm_control_panel.alarm_arm_away
+      data:
+        entity_id: alarm_control_panel.alarma

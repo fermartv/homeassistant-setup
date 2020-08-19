@@ -1,0 +1,409 @@
+#Aspiradora Xiaomi
+vacuum:
+  - platform: xiaomi_miio
+    host: !secret host_emilio
+    token: !secret token_emilio
+    name: Robot Emilio
+
+input_boolean:
+  limpieza:
+    name: Limpieza diaria
+    icon: mdi:clock-outline
+
+
+input_datetime:
+  hora_limpieza:
+    name: Hora limpieza diaria
+    has_date: false
+    has_time: true
+
+
+input_select:
+  zonas_limpieza:
+    name: Zonas
+    options:
+      - Cocina
+      - Salón
+      - Baño Marta
+      - Baño Fer
+      - Habitación
+      - Invitados
+      - Sofá
+      - Comedor
+      - Hall
+      - Pasillo
+    icon: mdi:floor-plan
+
+
+sensor:
+  - platform: template
+    sensors:
+      #Datos de Emilio
+      bateria_emilio:
+        value_template: '{{ states.vacuum.robot_emilio.attributes.battery_level }}'
+        friendly_name: 'Batería de Emilio'
+        unit_of_measurement: "%"
+        device_class: battery
+
+      cepillo_principal_emilio:
+        value_template: '{{ states.vacuum.robot_emilio.attributes.main_brush_left }}'
+        friendly_name: 'Cepillo principal'
+        unit_of_measurement: "hours"
+
+      cepillo_lateral_emilio:
+        value_template: '{{ states.vacuum.robot_emilio.attributes.side_brush_left }}'
+        friendly_name: 'Cepillo lateral'
+        unit_of_measurement: "hours"
+
+      filtro_emilio:
+        value_template: '{{ states.vacuum.robot_emilio.attributes.filter_left }}'
+        friendly_name: 'Filtro'
+        unit_of_measurement: "hours"
+
+      limpieza_sensores_emilio:
+        value_template: '{{ states.vacuum.robot_emilio.attributes.sensor_dirty_left }}'
+        friendly_name: 'Sensores'
+        unit_of_measurement: "hours"
+
+
+
+
+#############################################################
+#                                                           #
+#                        AUTOMATIONS                        #
+#                                                           #
+#############################################################
+automation:
+  - alias: Mantenimiento Emilio
+    description: ''
+    trigger:
+    - entity_id: sensor.cepillo_principal_emilio
+      platform: state
+      to: '60'
+    - entity_id: sensor.cepillo_lateral_emilio
+      platform: state
+      to: '30'
+    - entity_id: sensor.filtro_emilio
+      platform: state
+      to: '5'
+    - entity_id: sensor.limpieza_sensores_emilio
+      platform: state
+      to: '2'
+    condition: []
+    action:
+    - data:
+        message: 'Emilio necesita mantenimiento:
+          Cepillo central: {{states.sensor.cepillo_principal_emilio.state}} horas restantes.
+          Cepillo lateral: {{states.sensor.cepillo_lateral_emilio.state}} horas restantes.
+          Filtro: {{states.sensor.filtro_emilio.state}} horas restantes.
+          Sensores: {{states.sensor.limpieza_sensores_emilio.state}} horas restantes.'
+        target: !secret telegram_grupo
+      service: telegram_bot.send_message
+
+
+
+
+#############################################################
+#                                                           #
+#                          SCRIPTS                          #
+#                                                           #
+#############################################################
+script:
+  limpiacocina:
+    alias: Limpia la cocina
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '2'
+        zone:
+        - - 17127
+          - 24753
+          - 20577
+          - 26253
+
+  limpiabanomarta:
+    alias: Limpia el baño de Marta
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '2'
+        zone:
+        - - 22683
+          - 29005
+          - 24533
+          - 30705
+
+  limpiahabitacion:
+    alias: Limpia la habitación
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '1'
+        zone:
+        - - 24538
+          - 27564
+          - 27788
+          - 30864
+        - - 22685
+          - 27583
+          - 24735
+          - 28983
+
+  limpiahabitacioninvitados:
+    alias: Limpia la habitación de invitados
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '1'
+        zone:
+        - - 24509
+          - 24736
+          - 27709
+          - 27536
+
+  limpiabanofer:
+    alias: Limpia el baño de Fer
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '2'
+        zone:
+        - - 22068
+          - 24852
+          - 23868
+          - 26652
+
+  limpiapasillo:
+    alias: Limpia el pasillo
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '1'
+        zone:
+        - - 21973
+          - 26629
+          - 24623
+          - 27629
+
+  limpiahall:
+    alias: Limpia el hall
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '1'
+        zone:
+        - - 20672
+          - 24663
+          - 22022
+          - 26763
+
+  limpiasalon:
+    alias: Limpia el salón
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '1'
+        zone:
+        - - 17080
+          - 26691
+          - 22030
+          - 31041
+
+  limpiazonacomedor:
+    alias: Limpia la zona del comedor
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '1'
+        zone:
+        - - 20360
+          - 26673
+          - 22060
+          - 30973
+
+  limpiazonasofa:
+    alias: Limpia la zona del sofá
+    sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.robot_emilio
+        repeats: '1'
+        zone:
+        - - 17232
+          - 28889
+          - 20432
+          - 31139
+
+  emilio_limpia:
+    alias: Emilio limpia
+    sequence:
+    - service: vacuum.start
+      entity_id: vacuum.robot_emilio
+
+  emilio_vuelve_base:
+    alias: Emilio vuelve a la base
+    sequence:
+    - service: vacuum.return_to_base
+      entity_id: vacuum.robot_emilio
+
+  emilio_habla:
+    alias: Emilio habla
+    sequence:
+    - service: vacuum.locate
+      entity_id: vacuum.robot_emilio
+
+
+  emilio_pausa_reanuda:
+    alias: Emilio pausa la limpieza
+    sequence:
+    - entity_id: vacuum.robot_emilio
+      service_template: >
+        {%- if states.vacuum.robot_emilio.state == 'cleaning' or states.vacuum.robot_emilio.state == 'returning' -%}
+          vacuum.pause
+        {%- else -%}
+          vacuum.start
+        {%- endif -%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

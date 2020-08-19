@@ -1,0 +1,196 @@
+    icon: 'mdi:server-network'
+    path: system
+    title: ''
+
+    badges: []
+
+    cards:
+
+
+###################################################
+#                                                 #
+#           PULSADORES PARA REINICIAR             #
+#                                                 #
+###################################################
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: entity-button
+                entity: script.reinicia_ha
+                icon: 'mdi:home-assistant'
+                name: HA
+                icon_height: 35px
+                show_icon: true
+                show_name: true
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+
+              - type: entity-button
+                entity: script.reinicia_node_red
+                icon: 'mdi:transit-connection-variant'
+                name: Node Red
+                icon_height: 35px
+                show_icon: true
+                show_name: true
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+
+              # - type: entity-button
+              #   entity: script.reinicia_nextcloud
+              #   icon: 'mdi:cloud-sync'
+              #   name: Nextcloud
+              #   icon_height: 35px
+              #   show_icon: true
+              #   show_name: true
+              #   tap_action:
+              #     action: toggle
+              #   hold_action:
+              #     action: more-info
+
+          - type: horizontal-stack
+            cards:
+              - type: entity-button
+                entity: script.reinicia_mqtt
+                icon: 'mdi:bee'
+                name: MQTT
+                icon_height: 35px
+                show_icon: true
+                show_name: true
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+
+              - type: entity-button
+                entity: script.reinicia_z2mqtt
+                icon: 'mdi:zigbee'
+                name: Z2MQTT
+                icon_height: 35px
+                show_icon: true
+                show_name: true
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+
+
+###################################################
+#                                                 #
+#              GRÁFICAS DEL SISTEMA               #
+#                                                 #
+###################################################
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+
+          - type: 'custom:mini-graph-card'
+            entities:
+              - entity: sensor.temperatura_cpu
+                show_fill: false
+            hour24: true
+            name: Temperatura CPU
+            points_per_hour: 3
+            show:
+              extrema: true
+              icon: false
+              legend: false
+
+          - type: 'custom:bar-card'
+            entity: sensor.processor_use
+            height: 30px
+            name: Procesador
+
+          - type: 'custom:bar-card'
+            entity: sensor.memory_use_percent
+            height: 30px
+            name: Memoria
+
+          - type: 'custom:bar-card'
+            entity: sensor.disk_use_percent
+            height: 30px
+            name: SSD
+
+
+###################################################
+#                                                 #
+#            INFORMACIÓN DEL SISTEMA              #
+#                                                 #
+###################################################
+      - type: 'custom:vertical-stack-in-card'
+        cards:
+
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: sensor.uptime_ha
+                name: Uptime HA
+              - entity: sensor.last_boot
+                name: Uptime NUC
+              - entity: sensor.tiempo_reinicio_ha
+                name: Tiempo reinicio HA
+              # - entity: binary_sensor.conexion_internet
+              #   name: Internet
+              - entity: sensor.home_assistant_v2_db
+                name: Tamaño BD
+              - entity: sensor.version_actual_ha
+                name: Versión HA actual
+              - entity: sensor.nueva_version_ha
+                name: Versión HA disponible
+              - entity: sensor.hacs
+                name: Actualizaciones en HACS
+
+
+          - type: horizontal-stack
+            cards:
+              - type: sensor
+                graph: line
+                name: Descarga
+                entity: sensor.speedtest_download
+
+              - type: sensor
+                graph: line
+                name: Subida
+                entity: sensor.speedtest_upload
+
+              - type: sensor
+                graph: line
+                name: Ping
+                entity: sensor.speedtest_ping
+
+
+
+
+###################################################
+#                                                 #
+#          GESTOR DE CONTENEDORES DOCKER          #
+#                                                 #
+###################################################
+      - type: entities
+        title: Contenedores esenciales
+        show_header_toggle: false
+        icon: 'mdi:alert-outline'
+        entities:
+
+          - switch.traefik
+          - switch.dockermon
+          - switch.portainer
+          - switch.home_assistant
+
+      - type: entities
+        title: Contenedores docker
+        show_header_toggle: false
+        entities:
+
+          - switch.node_red
+          - switch.mqtt
+          - switch.zigbee2mqtt
+          - switch.esphome
+          - switch.esphome_usb
+          - switch.zigbee2mqtt_assistant
+          - switch.watchtower
+          - switch.nextcloud
+          - switch.pi_hole

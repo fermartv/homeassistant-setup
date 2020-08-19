@@ -1,0 +1,703 @@
+
+
+#############################################################
+#                                                           #
+#                         XIAOMI                            #
+#                                                           #
+#############################################################
+
+
+
+media_player:
+  # Use the Python ADB implementation
+  - platform: androidtv
+    name: La tele
+    host: !secret host_la_tele_xiaomi
+
+switch:
+  - platform: wake_on_lan
+    name: Interruptor de la tele
+    mac: !secret mac_la_tele_xiaomi
+    host: !secret host_la_tele_xiaomi
+    turn_off:
+      service: media_player.turn_off
+      data:
+        entity_id: media_player.la_tele
+
+
+# #Reproductor de Spotify
+# - platform: spotify
+#   client_id: !secret client_id_spotify
+#   client_secret: !secret client_secret_spotify
+
+
+#############################################################
+#                                                           #
+#                            LG                             #
+#                                                           #
+#############################################################
+
+# input_select:
+#   fuentes_la_tele:
+#     name: Input
+#     options:
+#       - La tele
+#       - YouTube
+#       - Netflix
+#       - Amazon Prime Video
+#       - HDMI 1
+#       - HDMI 2
+#       - HDMI 3
+#       - Spotify
+#     icon: mdi:video-input-hdmi
+
+
+# #Televisión del salón
+# webostv:
+#   host: !secret host_la_tele
+#   name: La tele
+#   # filename: webostv.conf
+#   # timeout: 5
+#   turn_on_action:
+#      service: wake_on_lan.send_magic_packet
+#      data:
+#        mac: !secret mac_la_tele_lg
+#   customize:
+#     sources:
+#       - Live TV
+#       - YouTube
+#       - Netflix
+#       - Amazon Prime Video
+#       - HDMI1
+#       - HDMI2
+#       - HDMI3
+#       - Spotify Music - Escúchalo gratis en LG TV
+
+
+#############################################################
+#                                                           #
+#                         SCRIPTS                           #
+#                                                           #
+#############################################################
+
+script:
+
+#############################################################
+#                                                           #
+#                    SOURCES - XIAOMI                       #
+#                                                           #
+#############################################################
+  tv_en_tv_xiaomi:
+    alias: TV en la tele
+    sequence:
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "INPUT"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "ENTER"
+  
+
+  seridor_en_tv_xiaomi:
+    alias: Servidor en la tele
+    sequence:
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "INPUT"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "DOWN"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "DOWN"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "ENTER"
+
+  switch_en_tv_xiaomi:
+    alias: Switch en la tele
+    sequence:
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "INPUT"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "DOWN"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "DOWN"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "DOWN"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.la_tele
+        command: "ENTER"
+#############################################################
+#                                                           #
+#                    SOURCES - LG                           #
+#                                                           #
+#############################################################
+
+
+#   netflix_la_tele:
+#     alias: Netflix en la tele
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         source: Netflix
+#       service: media_player.select_source
+
+#   youtube_la_tele:
+#     alias: Youtube en la tele
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         source: YouTube
+#       service: media_player.select_source
+
+#   directo_la_tele:
+#     alias: La tele en la tele
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         source: Live TV
+#       service: media_player.select_source
+
+#   amazon_la_tele:
+#     alias: Amazon en la tele
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         source: Amazon Prime Video
+#       service: media_player.select_source
+
+#   spotify_la_tele:
+#     alias: Spotify en la tele
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         source: Spotify Music - Escúchalo gratis en LG TV
+#       service: media_player.select_source
+
+#   hdmi1_la_tele:
+#     alias: HDMI1 en la tele
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         source: HDMI1
+#       service: media_player.select_source
+
+#   hdmi2_la_tele:
+#     alias: HDMI2 en la tele
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         source: HDMI2
+#       service: media_player.select_source
+
+#   hdmi3_la_tele:
+#     alias: HDMI3 en la tele
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         source: HDMI3
+#       service: media_player.select_source
+
+
+# #############################################################
+# #                                                           #
+# #                         CANALES                           #
+# #                                                           #
+# #############################################################
+
+
+#   tve_la_tele:
+#     alias: TVE
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         media_content_id: La 1 HD
+#         media_content_type: channel
+#       service: media_player.play_media
+
+#   la_2_la_tele:
+#     alias: La 2
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         media_content_id: La 2 HD
+#         media_content_type: channel
+#       service: media_player.play_media
+
+#   antena_3_la_tele:
+#     alias: Antena 3
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         media_content_id: antena3 HD
+#         media_content_type: channel
+#       service: media_player.play_media
+
+#   cuatro_la_tele:
+#     alias: La cuatro
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         media_content_id: Cuatro HD
+#         media_content_type: channel
+#       service: media_player.play_media
+
+#   telecinco_la_tele:
+#     alias: Telecinco
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         media_content_id: Telecinco HD
+#         media_content_type: channel
+#       service: media_player.play_media
+
+#   la_sexta_la_tele:
+#     alias: La sexta
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         media_content_id: LaSexta HD
+#         media_content_type: channel
+#       service: media_player.play_media
+
+#   24h_la_tele:
+#     alias: 24 horas
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         media_content_id: 24h
+#         media_content_type: channel
+#       service: media_player.play_media
+
+#   los_dibujos_la_tele:
+#     alias: Los dibujos
+#     sequence:
+#     - data:
+#         entity_id: media_player.la_tele
+#         media_content_id: Boing
+#         media_content_type: channel
+#       service: media_player.play_media
+
+
+# #############################################################
+# #                                                           #
+# #                         BOTONES                           #
+# #                                                           #
+# #############################################################
+
+#   subir_canal_la_tele:
+#     alias: Sube un canal
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "CHANNELUP"
+
+#   bajar_canal_la_tele:
+#     alias: Baja un canal
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "CHANNELDOWN"
+#   subir_volumen_la_tele:
+#     alias: Sube el volumen
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "VOLUMEUP"
+
+#   bajar_volumen_la_tele:
+#     alias: Baja el volumen
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "VOLUMEDOWN"
+
+#   mute_la_tele:
+#     alias: Mute
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "MUTE"
+
+#   enter_la_tele:
+#     alias: OK
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "ENTER"
+  
+#   izquierda_la_tele:
+#     alias: Izquierda
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "LEFT"
+  
+#   derecha_la_tele:
+#     alias: Derecha
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "RIGHT"
+  
+#   arriba_la_tele:
+#     alias: Arriba
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "UP"
+  
+#   abajo_la_tele:
+#     alias: Abajo
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "DOWN"
+
+#   home_la_tele:
+#     alias: Home
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "HOME"
+
+#   info_la_tele:
+#     alias: Info
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "INFO"
+
+#   exit_la_tele:
+#     alias: Cancelar
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "EXIT"
+
+#   list_la_tele:
+#     alias: Listado de canales
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "DASH"
+
+#   back_la_tele:
+#     alias: Back
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "BACK"
+
+
+# #############################################################
+# #                                                           #
+# #                         NUMEROS                           #
+# #                                                           #
+# #############################################################
+
+#   1_la_tele:
+#     alias: 1
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "1"
+
+#   2_la_tele:
+#     alias: 2
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "2"
+
+#   3_la_tele:
+#     alias: 3
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "3"
+
+#   4_la_tele:
+#     alias: 4
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "4"
+
+#   5_la_tele:
+#     alias: 5
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "5"
+
+#   6_la_tele:
+#     alias: 6
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "6"
+
+#   7_la_tele:
+#     alias: 7
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "7"
+
+#   8_la_tele:
+#     alias: 8
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "8"
+
+#   9_la_tele:
+#     alias: 9
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "9"
+
+#   0_la_tele:
+#     alias: 0
+#     sequence:
+#     - service: webostv.button
+#       data:
+#         entity_id: media_player.la_tele
+#         button: "0"
+
+
+
+# #############################################################
+# #                                                           #
+# #                         COMANDOS                          #
+# #                                                           #
+# #############################################################
+
+#   rebobinar_la_tele:
+#     alias: Rebobinar
+#     sequence:
+#     - service: webostv.command
+#       data:
+#         entity_id: media_player.la_tele
+#         command: "media.controls/rewind"
+
+#   fast_forward_la_tele:
+#     alias: Fast forward
+#     sequence:
+#     - service: webostv.command
+#       data:
+#         entity_id: media_player.la_tele
+#         command: "media.controls/fastForward"
+
+#   play_la_tele:
+#     alias: Play
+#     sequence:
+#     - service: webostv.command
+#       data:
+#         entity_id: media_player.la_tele
+#         command: "media.controls/play"
+
+#   pause_la_tele:
+#     alias: Pausa
+#     sequence:
+#     - service: webostv.command
+#       data:
+#         entity_id: media_player.la_tele
+#         command: "media.controls/pause"
+
+#   stop_la_tele:
+#     alias: Stop
+#     sequence:
+#     - service: webostv.command
+#       data:
+#         entity_id: media_player.la_tele
+#         command: "media.controls/stop"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
